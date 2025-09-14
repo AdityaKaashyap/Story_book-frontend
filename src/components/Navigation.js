@@ -78,6 +78,9 @@ export default function Navbar() {
             className="md:hidden bg-white shadow-md overflow-hidden"
           >
             <div className="px-4 pt-4 pb-4 space-y-3">
+              <a href="/register" className="block text-gray-700 hover:text-indigo-600">
+                Register
+              </a>
               <a href="/" className="block text-gray-700 hover:text-indigo-600">
                 Home
               </a>
