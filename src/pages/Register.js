@@ -56,7 +56,7 @@ const RegisterForm = () => {
 
 return(
     <>
-    <form onSubmit = {handleSubmit} className = "max-w-md mx-auto space-y-4">
+    <form onSubmit = {handleSubmit} className = "max-w-md mx-auto space-y-4 py-20">
         <h2 className="text-xl font-bold text-center">Register</h2>
 
         <input

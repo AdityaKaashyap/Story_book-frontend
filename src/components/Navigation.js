@@ -19,7 +19,7 @@ export default function Navbar() {
   // };
 
   return (
-    <nav className="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
+    <nav className="fixed top-0 left-0 w-full h-16 bg-blue-600 shadow-md z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Flex container for left and right */}
         <div className="flex justify-between items-center h-16">
@@ -30,13 +30,13 @@ export default function Navbar() {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8 items-center">
-            <a href="/" className="text-gray-700 hover:text-indigo-600">
+            <a href="/" className="hover:underline">
               Home
             </a>
-            <a href="/about" className="text-gray-700 hover:text-indigo-600">
+            <a href="/about" className="hover:underline">
               About
             </a>
-            <a href="/contact" className="text-gray-700 hover:text-indigo-600">
+            <a href="/contact" className="hover:underline">
               Contact
             </a>
           <>
@@ -50,6 +50,9 @@ export default function Navbar() {
             </a>
             <a href="/register" className="hover:underline">
               Register
+            </a>
+            <a href="/logout" className="hover:underline">
+              <button className="bg-yellow-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Logout</button>
             </a>
           </>
           </div>

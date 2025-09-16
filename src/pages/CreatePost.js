@@ -1,11 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import api from "../api/api";
 
 export default function CreatePost() {
   const [caption, setCaption] = useState("");
   const [image, setImage] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [posts, setPosts] = useState([]);
 
+  // Fetch all posts from backend on page load
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const token = localStorage.getItem("access");
+        const res = await api.get("/post/", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setPosts(res.data); // DRF now returns full image URLs
+      } catch (err) {
+        console.error("Failed to fetch posts:", err.response?.data || err.message);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  // Handle new post submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -14,7 +33,7 @@ export default function CreatePost() {
       return;
     }
 
-    const token = localStorage.getItem("access"); // JWT access token
+    const token = localStorage.getItem("access");
 
     const formData = new FormData();
     formData.append("caption", caption);
@@ -28,11 +47,13 @@ export default function CreatePost() {
         },
       });
 
-      console.log("Post created:", res.data);
-      alert("Post created successfully!");
+      // Add new post to top of list
+      setPosts([res.data, ...posts]);
+
+      // Reset form
       setCaption("");
       setImage(null);
-      setShowForm(false); // close the form after posting
+      setShowForm(false);
     } catch (err) {
       console.error(err.response?.data || err.message);
       alert("Failed to create post. Are you logged in?");
@@ -40,7 +61,8 @@ export default function CreatePost() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10">
+    <div className="max-w-md mx-auto mt-10 space-y-10">
+      {/* Create Post Button/Form */}
       {!showForm ? (
         <button
           onClick={() => setShowForm(true)}
@@ -88,6 +110,25 @@ export default function CreatePost() {
           </div>
         </form>
       )}
+
+      {/* Display all posts */}
+      <div className="space-y-6">
+        {posts.map((post) => (
+          <div
+            key={post.id}
+            className="bg-white p-4 rounded-xl shadow-md space-y-2"
+          >
+            {post.image && (
+              <img
+                src={post.image} // now full URL from backend
+                alt="Post"
+                className="w-full h-60 object-cover rounded-lg"
+              />
+            )}
+            <p className="text-gray-800">{post.caption}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -28,7 +28,7 @@ const Login = () => {
     return (
        <form
       onSubmit={handleSubmit}
-      className="max-w-md mx-auto mt-12 space-y-4 border p-6 rounded-xl shadow"
+      className="max-w-md mx-auto mt-12 space-y-4 py-16 px-4 sm:px-6 lg:px-8 bg-white rounded shadow"
     >
       <h2 className="text-xl font-bold text-center">Login</h2>
 
