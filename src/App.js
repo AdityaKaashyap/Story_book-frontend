@@ -6,17 +6,20 @@ import Home from './pages/Home';
 import ProtectedRoute from './components/ProtectedRoutes';
 import CreatePost from './pages/CreatePost';
 import Logout from './pages/Logout';
+import FetchPosts from './pages/Fetchpost';
+
 
 function App() {
   return (
     <>
-      <Navbar />
+      <Navbar /> 
     <Routes>
       {/* <Route path="/" element={<About Us />} /> */}    
       <Route path="/register" element={<RegisterForm />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+      <Route path="/" element={<Home />} />
       <Route path="/createpost" element={<ProtectedRoute><CreatePost /></ProtectedRoute>} />
+      <Route path="/showposts" element={<ProtectedRoute><FetchPosts /></ProtectedRoute>} />
       <Route path="/logout" element={<ProtectedRoute><Logout /></ProtectedRoute>} />
     </Routes>
       </>

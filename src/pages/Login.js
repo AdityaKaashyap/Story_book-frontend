@@ -16,8 +16,8 @@ const Login = () => {
 
         try{
             const res = await api.post("/login/",formData)
-            localStorage.setItem("access_token",res.data.access)
-            localStorage.setItem("refresh_token",res.data.refresh)
+            localStorage.setItem("access",res.data.access)
+            localStorage.setItem("refresh",res.data.refresh)
             alert("Login Successfull");
             window.location.href="/";
         }catch(err){
@@ -57,6 +57,13 @@ const Login = () => {
       >
         Login
       </button>
+
+      <p className="text-center">
+        Don't have an account?{" "}
+        <a href="/register" className="text-blue-500">
+          Register
+        </a>
+      </p>
 
       {error && <p className="text-red-500">{error}</p>}
     </form>

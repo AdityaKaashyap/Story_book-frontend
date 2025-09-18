@@ -19,7 +19,7 @@ export default function Navbar() {
   // };
 
   return (
-    <nav className="fixed top-0 left-0 w-full h-16 bg-blue-600 shadow-md z-50">
+    <nav className="sticky top-0 left-0 w-full h-16 bg-blue-600 shadow-md z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Flex container for left and right */}
         <div className="flex justify-between items-center h-16">
@@ -42,6 +42,11 @@ export default function Navbar() {
           <>
             <a href="/createpost" className="hover:underline">
               Create Post
+            </a>
+          </>
+          <>
+            <a href="/showposts" className="hover:underline">
+              My Posts
             </a>
           </>
           <>
@@ -98,6 +103,12 @@ export default function Navbar() {
                 className="block bg-indigo-600 text-white text-center px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
               >
                 Login
+              </a>
+              <a
+                href="/logout"
+                className="block bg-indigo-600 text-white text-center px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
+              >
+                Logout
               </a>
             </div>
           </motion.div>
