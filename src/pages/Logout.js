@@ -3,8 +3,8 @@ import api from "../api/api";
 
 const Logout = () => {
     useEffect(()=>{
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
         window.location.href="/login";
     });
 
