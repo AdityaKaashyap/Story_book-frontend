@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create an axios instance
 const api = axios.create({
-  baseURL: "https://storybook-backend-748k.onrender.com", // your Django API base URL
+  baseURL: "https://storybook-backend-748k.onrender.com/api/", // your Django API base URL
   headers: {
     "Content-Type": "application/json",
   },
