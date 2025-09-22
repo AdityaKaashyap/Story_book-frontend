@@ -7,6 +7,9 @@ import ProtectedRoute from './components/ProtectedRoutes';
 import CreatePost from './pages/CreatePost';
 import Logout from './pages/Logout';
 import FetchPosts from './pages/Fetchpost';
+import FollowerFollowing from './Profiles/FollowerFollowing';
+import Userprofile from './Profiles/Userprofile';
+
 
 
 function App() {
@@ -18,6 +21,8 @@ function App() {
       <Route path="/register" element={<RegisterForm />} />
       <Route path="/login" element={<Login />} />
       <Route path="/" element={<Home />} />
+      <Route path="/userprofile" element={<ProtectedRoute><Userprofile /></ProtectedRoute>} />
+      <Route path="/followerfollowing/:username" element={<ProtectedRoute><FollowerFollowing /></ProtectedRoute>} />
       <Route path="/createpost" element={<ProtectedRoute><CreatePost /></ProtectedRoute>} />
       <Route path="/showposts" element={<ProtectedRoute><FetchPosts /></ProtectedRoute>} />
       <Route path="/logout" element={<ProtectedRoute><Logout /></ProtectedRoute>} />
