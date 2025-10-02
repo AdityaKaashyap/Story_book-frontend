@@ -1,119 +1,119 @@
-import { useState,useEffect } from "react";
-import { Menu, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState } from "react";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import HomeIcon from "@mui/icons-material/Home";
+import InfoIcon from "@mui/icons-material/Info";
+import ContactMailIcon from "@mui/icons-material/ContactMail";
+import PostAddIcon from "@mui/icons-material/PostAdd";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import LoginIcon from "@mui/icons-material/Login";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
+import LogoutIcon from "@mui/icons-material/Logout";
+import Box from "@mui/material/Box";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  // const [loggedIn, setLoggedIn] = useState(false);
 
-  // // Check token in localStorage
-  // useEffect(() => {
-  //   const token = localStorage.getItem("access");
-  //   setLoggedIn(!!token);
-  // }, []);
+  const handleDrawerToggle = () => {
+    setOpen(!open);
+  };
 
-  //   const handleLogout = () => {
-  //   localStorage.removeItem("access");
-  //   setLoggedIn(false);
-  //   window.location.href = "/login"; // redirect to login page
-  // };
+  const menuItems = [
+    { text: "Home", href: "/", icon: <HomeIcon /> },
+    { text: "About", href: "/about", icon: <InfoIcon /> },
+    { text: "Contact", href: "/contact", icon: <ContactMailIcon /> },
+    { text: "Create Post", href: "/createpost", icon: <PostAddIcon /> },
+    { text: "My Posts", href: "/showposts", icon: <ListAltIcon /> },
+    { text: "Register", href: "/register", icon: <HowToRegIcon /> },
+    { text: "Login", href: "/login", icon: <LoginIcon /> },
+    { text: "Logout", href: "/logout", icon: <LogoutIcon /> },
+  ];
 
   return (
-    <nav className="sticky top-0 left-0 w-full h-16 bg-blue-600 shadow-md z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Flex container for left and right */}
-        <div className="flex justify-between items-center h-16">
-          {/* Left: Logo */}
-          <div className="flex-shrink-0 text-2xl font-bold text-indigo-600">
+    <>
+      <AppBar position="sticky" color="primary">
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+          {/* Logo */}
+          <Typography variant="h6" component="div">
             MyApp
-          </div>
+          </Typography>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-8 items-center">
-            <a href="/" className="hover:underline">
-              Home
-            </a>
-            <a href="/about" className="hover:underline">
-              About
-            </a>
-            <a href="/contact" className="hover:underline">
-              Contact
-            </a>
-          <>
-            <a href="/createpost" className="hover:underline">
-              Create Post
-            </a>
-          </>
-          <>
-            <a href="/showposts" className="hover:underline">
-              My Posts
-            </a>
-          </>
-          <>
-            <a href="/login" className="hover:underline">
-              Login
-            </a>
-            <a href="/register" className="hover:underline">
-              Register
-            </a>
-            <a href="/logout" className="hover:underline">
-              <button className="bg-yellow-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Logout</button>
-            </a>
-          </>
-          </div>
+          <Box sx={{ display: { xs: "none", md: "flex" }, gap: 1 }}>
+            {menuItems.map((item) =>
+              item.text === "Logout" ? (
+                <Button
+                  key={item.text}
+                  variant="contained"
+                  color="secondary"
+                  startIcon={item.icon}
+                  href={item.href}
+                >
+                  {item.text}
+                </Button>
+              ) : (
+                <Button
+                  key={item.text}
+                  color="inherit"
+                  startIcon={item.icon}
+                  href={item.href}
+                >
+                  {item.text}
+                </Button>
+              )
+            )}
+          </Box>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setOpen(!open)}
-              className="text-gray-700 hover:text-indigo-600 focus:outline-none"
-            >
-              {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Menu with Animation */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            key="mobile-menu"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden bg-white shadow-md overflow-hidden"
+          <IconButton
+            color="inherit"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ display: { md: "none" } }}
           >
-            <div className="px-4 pt-4 pb-4 space-y-3">
-              <a href="/register" className="block text-gray-700 hover:text-indigo-600">
-                Register
-              </a>
-              <a href="/" className="block text-gray-700 hover:text-indigo-600">
-                Home
-              </a>
-              <a href="/about" className="block text-gray-700 hover:text-indigo-600">
-                About
-              </a>
-              <a href="/contact" className="block text-gray-700 hover:text-indigo-600">
-                Contact
-              </a>
-              <a
-                href="/login"
-                className="block bg-indigo-600 text-white text-center px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
+            {open ? <CloseIcon /> : <MenuIcon />}
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+
+      {/* Mobile Drawer */}
+      <Drawer
+        anchor="right"
+        open={open}
+        onClose={handleDrawerToggle}
+        ModalProps={{ keepMounted: true }}
+      >
+        <Box
+          sx={{ width: 250 }}
+          role="presentation"
+          onClick={handleDrawerToggle}
+          onKeyDown={handleDrawerToggle}
+        >
+          <List>
+            {menuItems.map((item) => (
+              <ListItem
+                button
+                key={item.text}
+                component="a"
+                href={item.href}
               >
-                Login
-              </a>
-              <a
-                href="/logout"
-                className="block bg-indigo-600 text-white text-center px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
-              >
-                Logout
-              </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.text} />
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+      </Drawer>
+    </>
   );
 }
