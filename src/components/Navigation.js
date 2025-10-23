@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -16,61 +16,101 @@ import InfoIcon from "@mui/icons-material/Info";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import ListAltIcon from "@mui/icons-material/ListAlt";
+import LogoutIcon from "@mui/icons-material/Logout";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import Box from "@mui/material/Box";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import LoginIcon from "@mui/icons-material/Login";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
-import LogoutIcon from "@mui/icons-material/Logout";
-import Box from "@mui/material/Box";
+
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [user, setUser] = useState(null);
 
-  const handleDrawerToggle = () => {
-    setOpen(!open);
+  useEffect(() => {
+    // Fetch user info if logged in
+    const username = localStorage.getItem("username"); // or fetch from API
+    if (username) setUser({ username });
+  }, []);
+
+  const handleDrawerToggle = () => setOpen(!open);
+
+  const handleAvatarClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  const menuItems = [
+  const handleAvatarClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    window.location.href = "/login";
+  };
+
+  const navLinks = [
     { text: "Home", href: "/", icon: <HomeIcon /> },
     { text: "About", href: "/about", icon: <InfoIcon /> },
     { text: "Contact", href: "/contact", icon: <ContactMailIcon /> },
     { text: "Create Post", href: "/createpost", icon: <PostAddIcon /> },
     { text: "My Posts", href: "/showposts", icon: <ListAltIcon /> },
-    { text: "Register", href: "/register", icon: <HowToRegIcon /> },
-    { text: "Login", href: "/login", icon: <LoginIcon /> },
-    { text: "Logout", href: "/logout", icon: <LogoutIcon /> },
   ];
 
   return (
     <>
       <AppBar position="sticky" color="primary">
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-          {/* Logo */}
-          <Typography variant="h6" component="div">
-            MyApp
-          </Typography>
+          <Typography variant="h6">MyApp</Typography>
 
           {/* Desktop Menu */}
-          <Box sx={{ display: { xs: "none", md: "flex" }, gap: 1 }}>
-            {menuItems.map((item) =>
-              item.text === "Logout" ? (
-                <Button
-                  key={item.text}
-                  variant="contained"
-                  color="secondary"
-                  startIcon={item.icon}
-                  href={item.href}
+          <Box sx={{ display: { xs: "none", md: "flex" }, gap: 1, alignItems: "center" }}>
+            {navLinks.map((item) => (
+              <Button
+                key={item.text}
+                color="inherit"
+                startIcon={item.icon}
+                href={item.href}
+              >
+                {item.text}
+              </Button>
+            ))}
+
+            {/* User Avatar */}
+            {user ? (
+              <>
+                <IconButton color="inherit" onClick={handleAvatarClick}>
+                  <AccountCircle />
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleAvatarClose}
                 >
-                  {item.text}
+                  <MenuItem onClick={handleAvatarClose}>Profile</MenuItem>
+                  <MenuItem onClick={handleAvatarClose}>Settings</MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      handleAvatarClose();
+                      handleLogout();
+                    }}
+                  >
+                    Logout
+                  </MenuItem>
+                </Menu>
+              </>
+            ) : (
+              <>
+                <Button color="inherit" href="/login">
+                  Login
                 </Button>
-              ) : (
-                <Button
-                  key={item.text}
-                  color="inherit"
-                  startIcon={item.icon}
-                  href={item.href}
-                >
-                  {item.text}
+                <Button color="inherit" href="/register">
+                  Register
                 </Button>
-              )
+              </>
             )}
           </Box>
 
@@ -100,17 +140,30 @@ export default function Navbar() {
           onKeyDown={handleDrawerToggle}
         >
           <List>
-            {menuItems.map((item) => (
-              <ListItem
-                button
-                key={item.text}
-                component="a"
-                href={item.href}
-              >
+            {navLinks.map((item) => (
+              <ListItem component="a" href={item.href} key={item.text}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItem>
             ))}
+
+            {user ? (
+              <ListItem button onClick={handleLogout}>
+                <ListItemIcon><LogoutIcon /></ListItemIcon>
+                <ListItemText primary="Logout" />
+              </ListItem>
+            ) : (
+              <>
+                <ListItem component="a" href="/login">
+                  <ListItemIcon><LoginIcon /></ListItemIcon>
+                  <ListItemText primary="Login" />
+                </ListItem>
+                <ListItem component="a" href="/register">
+                  <ListItemIcon><HowToRegIcon /></ListItemIcon>
+                  <ListItemText primary="Register" />
+                </ListItem>
+              </>
+            )}
           </List>
         </Box>
       </Drawer>
